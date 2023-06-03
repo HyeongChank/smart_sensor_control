@@ -1,0 +1,23 @@
+## raspberry 설치
+
+1. raspberry Pi imager 최신버전 설치
+2. Choose OS로 운영체제 선택, 저장소 선택 후 톱니바퀴모양 누름
+3. hostname, SSH 사용, 사용자 이름 및 비밀번호 설정, wifi설정, 로케일 설정 지정 모두 체크하고 항목을 채움
+4. 쓰기로 이미지를 구워줌
+5. 라즈베리파이에 SD카드를 넣고 전원을 켜줌
+6. putty로 라즈베리파이에 접속(같은 네트워크상에 있어야함)
+7. hostname은 raspberrypi로 두고 접속
+8. 사용자 이름과 비밀번호 입력
+9. sudo nano /boot/config.txt 입력
+10. 중간의 hdmi_force_hotplug=1 부분의 주석을 지움
+11. sudo raspi-config 입력
+12. Interface Options - P3 VNC 를 선택하고 VNC 활성화
+13. Display Options - D1 VNC Resolution - 1920x1080 선택
+14. 라즈베리파이는 재부팅
+
+## vnc viewer 접속
+15. VNC Viewer connect 에 hostname 입력
+
+## visual studio code
+- f1 -> ssh: add new -> user@hostname 입력 시 라즈베리파이 imager에서 설정한 값 넣기
+- f1 -> ssh:connect -> raspberry 연결 -> 패스워드 입력 -> 연결되면 폴더선택
