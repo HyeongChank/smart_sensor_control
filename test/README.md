@@ -21,3 +21,7 @@
 ## visual studio code
 - f1 -> ssh: add new -> user@hostname 입력 시 라즈베리파이 imager에서 설정한 값 넣기
 - f1 -> ssh:connect -> raspberry 연결 -> 패스워드 입력 -> 연결되면 폴더선택
+
+## LED 켜기
+- GPIO
+- 점퍼 케이블(라즈베리파이, 브레드보드 연결), LED, 저항 연결
