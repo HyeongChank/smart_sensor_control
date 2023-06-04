@@ -23,5 +23,5 @@
 - f1 -> ssh:connect -> raspberry 연결 -> 패스워드 입력 -> 연결되면 폴더선택
 
 ## LED 켜기
-- GPIO
+- GPIO(Gnenral Prupose Input Output: 범용입출력) 라이브러리 사용
 - 점퍼 케이블(라즈베리파이, 브레드보드 연결), LED, 저항 연결
