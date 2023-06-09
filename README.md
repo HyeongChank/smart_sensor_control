@@ -7,7 +7,7 @@
 - pull_up_down
 
 
-<img width="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/4ecca2e1-a5e6-47e0-8b33-2d3f8ff8b52b"/>
+<img width="200" height="100" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/4ecca2e1-a5e6-47e0-8b33-2d3f8ff8b52b"/>
 
 
-<img width="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/083a0c25-f94a-447f-9058-7998667e6243"/>
+<img width="200" height="100" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/083a0c25-f94a-447f-9058-7998667e6243"/>
