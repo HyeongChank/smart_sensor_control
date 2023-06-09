@@ -9,4 +9,4 @@
 
 
 https://github.com/HyeongChank/Raspberry_pi/assets/122770625/5239cc03-e266-4bad-901c-a364cfa7b103
-<img width="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/5239cc03-e266-4bad-901c-a364cfa7b103.mp4"/>
+<img width="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/5239cc03-e266-4bad-901c-a364cfa7b103"/>
