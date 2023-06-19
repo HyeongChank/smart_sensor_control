@@ -18,4 +18,4 @@
 
 
 <img width="200" height="100"
-src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/f2740cbc-cd97-41bd-ba0c-88331d7f0a6e"/>
+src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/378c8239-1062-4b29-9a01-17d5411a818b"/>
