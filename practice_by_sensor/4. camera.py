@@ -9,18 +9,6 @@ camera.capture('/home/pi/Desktop/image.jpg') # 지정한 경로에 사진을 저
 camera.stop_preview()
 
 
-
-
-
-
-
-
-
-from picamera import PiCamera
-from time import sleep
-
-camera = PiCamera()
-
 camera.start_preview()
 camera.start_recording('/home/pi/Desktop/video.h264') # 지정한 경로에 비디오를 녹화 시작
 sleep(5) # 5초간 녹화
