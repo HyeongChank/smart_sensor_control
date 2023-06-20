@@ -16,7 +16,7 @@
 - PiCamera 모듈 사용
 - .capture / .start_recording
 
-```shell
+
 > 동영상(카메라)
 <img width="200" height="100" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/b2269571-27de-4cec-ab94-c4ab68821a6c"/>
 
@@ -31,7 +31,7 @@
 
 > LED 켜기
 <img width="200" height="100" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/083a0c25-f94a-447f-9058-7998667e6243"/>
-```
+
 
 
 
