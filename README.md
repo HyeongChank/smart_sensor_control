@@ -15,6 +15,10 @@
 ## 카메라 모듈로 사진, 동영상 촬영(06.20)
 - PiCamera 모듈 사용
 - .capture / .start_recording
+- 라즈베리파이 카메라 설정
+    - sudo raspi-config -> interface options -> legacy camera -> yes -> finish
+    - 재부팅 -> vcgencmd get_camera(카메라 연결 확인) -> raspistill -o test.jpg(test 촬영)
+
 
 
 > 동영상(카메라)
