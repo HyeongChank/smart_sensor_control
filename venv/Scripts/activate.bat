@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\jsk38\raspberrypi\venv
+set VIRTUAL_ENV=D:\김형찬\1project_ai_tensorflow_collect\raspberryPI\Raspberry_pi\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
