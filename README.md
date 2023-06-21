@@ -4,13 +4,13 @@
 ## LED 켜기(06.05)
 - GPIO(Gnenral Prupose Input Output: 범용입출력) 라이브러리 사용
 - 점퍼 케이블(라즈베리파이, 브레드보드 연결), LED, 저항 연결
-
+    - LED 왼쪽-GPIO / LED 오른쪽-저항-GND
 ## 스위치 입력 시 LED 점등하기(06.09)
 - pull_up_down
 
 ## 온습도 측정(06.19)
 - Adafruit_DHT 모듈 사용
-- VCC-5v / GND-GND / DATA-GPIO 연결
+- VCC-5V / GND-GND / DATA-GPIO 연결
 
 ## 카메라 모듈로 사진, 동영상 촬영(06.20)
 - PiCamera 모듈 사용
@@ -18,6 +18,10 @@
 - 라즈베리파이 카메라 설정
     - sudo raspi-config -> interface options -> legacy camera -> yes -> finish
     - 재부팅 -> vcgencmd get_camera(카메라 연결 확인) -> raspistill -o test.jpg(test 촬영)
+
+## 진동감지 시 LED 켜기(06.21)
+- GPIO.IN(스위치와 동일)
+- VCC-5V / GND-GND / DO-GPIO
 
 > 진동감지에 따른 LED 조명 On
 <img width="200" height="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/0d671ea5-7567-4161-9b9c-fba7abc75560"/>
