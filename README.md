@@ -19,7 +19,8 @@
     - sudo raspi-config -> interface options -> legacy camera -> yes -> finish
     - 재부팅 -> vcgencmd get_camera(카메라 연결 확인) -> raspistill -o test.jpg(test 촬영)
 
-
+> 진동감지에 따른 LED 조명 On
+<img width="200" height="100" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/0d671ea5-7567-4161-9b9c-fba7abc75560"/>
 
 > 동영상(카메라)
 <img width="200" height="100" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/b2269571-27de-4cec-ab94-c4ab68821a6c"/>
