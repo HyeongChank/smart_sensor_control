@@ -30,12 +30,13 @@
 - pull-down 저항 활성화 : 저전압(OV), 입력 없을 때 LOW 상태 유지
 - pull-up 저항 활성화 : VCC, 입력 없을 때 HIGH 상태 유지
 
+<div>
 > 충돌감지
 <img width="200" height="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/c9e7f7f3-7599-46c6-80fd-6ed4fffc13b8"/>
 
 > 진동감지에 따른 LED 조명 On
 <img width="200" height="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/0d671ea5-7567-4161-9b9c-fba7abc75560"/>
-
+</div>
 > 동영상(카메라)
 <img width="200" height="100" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/b2269571-27de-4cec-ab94-c4ab68821a6c"/>
 
