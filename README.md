@@ -1,5 +1,7 @@
 # 라즈베리파이 센서를 통한 데이터 수집 연습
 ### 최종적으로 스마트 센서 네트워크 설계 및 장비를 활용한 생산 공정 자동 제어, 모니터링 시스템 구축하기
+- pull-down 저항 활성화 : 저전압(OV), 입력 없을 때 LOW 상태 유지
+- pull-up 저항 활성화 : VCC, 입력 없을 때 HIGH 상태 유지
 
 ## LED 켜기(06.05)
 - GPIO(Gnenral Prupose Input Output: 범용입출력) 라이브러리 사용
@@ -22,6 +24,10 @@
 ## 진동감지 시 LED 켜기(06.21)
 - GPIO.IN(스위치와 동일)
 - VCC-5V / GND-GND / DO-GPIO
+
+## 충돌감지(06.22)
+- GPIO.IN(진동감지 센서와 동일)
+- VCC-5V / GNd-GND / OUT-GPIO
 
 > 진동감지에 따른 LED 조명 On
 <img width="200" height="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/0d671ea5-7567-4161-9b9c-fba7abc75560"/>
