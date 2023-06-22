@@ -29,6 +29,10 @@
 - GPIO.IN(진동감지 센서와 동일)
 - VCC-5V / GNd-GND / OUT-GPIO
 
+  
+<img width="200" height="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/c9e7f7f3-7599-46c6-80fd-6ed4fffc13b8"/>
+
+
 > 진동감지에 따른 LED 조명 On
 <img width="200" height="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/0d671ea5-7567-4161-9b9c-fba7abc75560"/>
 
