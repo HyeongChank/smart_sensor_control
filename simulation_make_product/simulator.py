@@ -1,6 +1,7 @@
-import simpy
+
 import random
 import csv
+import simpy
 # from picamera import PiCamera
 # import RPi.GPIO as GPIO
 # from time import sleep
@@ -11,7 +12,9 @@ product_a_count = 0
 product_b_count = 0
 product_c_count = 0
 complete_product_count = 0
-unnormal_product_count = 0
+unnormal_product_head_count = 0
+unnormal_product_body_count = 0
+unnormal_product_foot_count = 0
 machineA_complete_list = []
 
 class Product:
@@ -37,84 +40,90 @@ class Product:
     
     def machine_A1(self):
         global product_a_count
-        while True:
-            yield env.timeout(2)
-            machineA_completetime = env.now
-            product_a_count += 1
-            yield self.conveyor1.put('제품 %s' % (self.name + str(product_a_count)))
-            print('시간 %d: 머신 A1가 제품 %s를 완성하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_a_count), self.conveyor1))
-            self.env.process(self.machine_A1_1( machineA_completetime))
+       
+        yield env.timeout(2)
+        machineA_completetime = env.now
+        product_a_count += 1
+        yield self.conveyor1.put('제품 %s' % (self.name + str(product_a_count)))
+        print('시간 %d: 머신 A1가 제품 %s를 완성하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_a_count), self.conveyor1))
+        self.env.process(self.machine_A1_1( machineA_completetime))
 
     def machine_A2(self):
         global product_b_count
-        while True:
-            yield env.timeout(4)
-            machineA_completetime = env.now
-            product_b_count += 1
-            yield self.conveyor2.put('제품 %s' % (self.name + str(product_b_count)))
-            print('시간 %d: 머신 A2가 제품 %s를 완성하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_b_count), self.conveyor2))
-            self.env.process(self.machine_A2_1(machineA_completetime))
+      
+        yield env.timeout(4)
+        machineA_completetime = env.now
+        product_b_count += 1
+        yield self.conveyor2.put('제품 %s' % (self.name + str(product_b_count)))
+        print('시간 %d: 머신 A2가 제품 %s를 완성하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_b_count), self.conveyor2))
+        self.env.process(self.machine_A2_1(machineA_completetime))
 
     def machine_A3(self):
         global product_c_count
-        while True:
-            yield env.timeout(10)
-            machineA_completetime = env.now
-            product_c_count += 1
-            yield self.conveyor3.put('제품 %s' % (self.name + str(product_c_count)))
-            print('시간 %d: 머신 A3가 제품 %s를 완성하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_c_count), self.conveyor3))
-            self.env.process(self.machine_A3_1(machineA_completetime))
+     
+        yield env.timeout(10)
+        machineA_completetime = env.now
+        product_c_count += 1
+        yield self.conveyor3.put('제품 %s' % (self.name + str(product_c_count)))
+        print('시간 %d: 머신 A3가 제품 %s를 완성하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_c_count), self.conveyor3))
+        self.env.process(self.machine_A3_1(machineA_completetime))
 
 
     
     def machine_A1_1(self, machineA_completetime):
         global product_a_count
-        while True:
-            yield env.timeout(2)
-            machineA_1_completetime = env.now
-            yield self.conveyor1_1.put('제품 %s' % (self.name + str(product_a_count)))
-            print('시간 %d: 머신 A1_1가 제품 %s를 가공하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_a_count), self.conveyor1_1))
-            print(self.weight)
-            if self.weight == 'normal':
-                self.env.process(self.machine_B(machineA_completetime, machineA_1_completetime))
+        
+        yield env.timeout(2)
+        machineA_1_completetime = env.now
+        yield self.conveyor1_1.put('제품 %s' % (self.name + str(product_a_count)))
+        print('시간 %d: 머신 A1_1가 제품 %s를 가공하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_a_count), self.conveyor1_1))
+        print(self.weight)
+        if self.weight == 'normal':
+            self.env.process(self.machine_B(machineA_completetime, machineA_1_completetime))
+        
+        elif self.weight == 'unnormal':
+            print('이상')
+            self.env.process(self.machine_C())
+        
             
-            elif self.weight == 'unnormal':
-                print('이상')
-                self.env.process(self.machine_C())
 
 
     def machine_A2_1(self, machineA_completetime):
         global product_b_count
-        while True:
-            yield env.timeout(2)
-            machineA_1_completetime = env.now
-            product_b_count += 1
-            yield self.conveyor2_1.put('제품 %s' % (self.name + str(product_b_count)))
-            print('시간 %d: 머신 A2_1가 제품 %s를 가공하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_b_count), self.conveyor2_1))
-            print(self.weight)
-            if self.weight == 'normal':
-                self.env.process(self.machine_B(machineA_completetime, machineA_1_completetime))
-        
-            else:
-                print('이상')
-                self.env.process(self.machine_C())
+       
+        yield env.timeout(2)
+        machineA_1_completetime = env.now
+        product_b_count += 1
+        yield self.conveyor2_1.put('제품 %s' % (self.name + str(product_b_count)))
+        print('시간 %d: 머신 A2_1가 제품 %s를 가공하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_b_count), self.conveyor2_1))
+        print(self.weight)
+        if self.weight == 'normal':
+            self.env.process(self.machine_B(machineA_completetime, machineA_1_completetime))
+    
+        else:
+            print('이상')
+            self.env.process(self.machine_C())
+       
+                
 
 
     def machine_A3_1(self, machineA_completetime):
         global product_c_count
-        while True:
-            yield env.timeout(2)
-            machineA_1_completetime = env.now
-            product_c_count += 1
-            yield self.conveyor3_1.put('제품 %s' % (self.name + str(product_c_count)))
-            print('시간 %d: 머신 A3_1가 제품 %s를 가공하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_c_count), self.conveyor3_1))
-            print(self.weight)
-            if self.weight == 'normal':
-                self.env.process(self.machine_B(machineA_completetime, machineA_1_completetime))
+      
+        yield env.timeout(2)
+        machineA_1_completetime = env.now
+        product_c_count += 1
+        yield self.conveyor3_1.put('제품 %s' % (self.name + str(product_c_count)))
+        print('시간 %d: 머신 A3_1가 제품 %s를 가공하고 %s 컨베이어에 넣음' % (env.now, self.name + str(product_c_count), self.conveyor3_1))
+        print(self.weight)
+        if self.weight == 'normal':
+            self.env.process(self.machine_B(machineA_completetime, machineA_1_completetime))
+        
+        else:
+            print('이상')
+            self.env.process(self.machine_C())
+      
             
-            else:
-                print('이상')
-                self.env.process(self.machine_C())
 
 
 
@@ -132,15 +141,27 @@ class Product:
             
 
     def machine_C(self):
-        global unnormal_product_count
-        unnormal_product_count += 1
+        global unnormal_product_head_count
+        global unnormal_product_body_count
+        global unnormal_product_foot_count
+        yield env.timeout(3)
+        if self.name == 'head':
+            unnormal_product_head_count += 1
+            self.action = env.process(self.machine_A1())
+        elif self.name == 'body':
+            unnormal_product_body_count += 1
+            self.action = env.process(self.machine_A2())
+        else:
+            unnormal_product_foot_count +=1
+            self.action = env.process(self.machine_A3())
+            
         print('시간 %d 불량 의심 제품 %s 별도 분리' % (env.now, self.name))
         # yield를 하지 않으면 generate None 오류 나옴
-        yield self.env.timeout(0)
+        
 
-weight_list = ["unnormal"] * 50 + ["normal"] * 50
-weight = random.choice(weight_list)
 
+weight_list = ["unnormal"] * 9
+print(weight_list)
 env = simpy.Environment()
 temporature = 'normal'
 stop_production = False
@@ -172,17 +193,22 @@ conveyor1_1 = simpy.Store(env, capacity=1)
 conveyor2_1 = simpy.Store(env, capacity=1)
 conveyor3_1 = simpy.Store(env, capacity=1)
 
-Product(env, 'head', conveyor1, conveyor2, conveyor3,
-         conveyor1_1, conveyor2_1, conveyor3_1, weight)
-Product(env, 'body', conveyor1, conveyor2, conveyor3,
-         conveyor1_1, conveyor2_1, conveyor3_1, weight)
-Product(env, 'foot', conveyor1, conveyor2, conveyor3,
-         conveyor1_1, conveyor2_1, conveyor3_1, weight)
+for i in range(1000):
+    Product(env, 'head', conveyor1, conveyor2, conveyor3,
+            conveyor1_1, conveyor2_1, conveyor3_1, random.choice(weight_list))
+for i in range(1000):
+    Product(env, 'body', conveyor1, conveyor2, conveyor3,
+            conveyor1_1, conveyor2_1, conveyor3_1, random.choice(weight_list))
+for i in range(1000):
+    Product(env, 'foot', conveyor1, conveyor2, conveyor3,
+            conveyor1_1, conveyor2_1, conveyor3_1, random.choice(weight_list))
 
 env.run(until=500)
 
 print('완성 개수:', complete_product_count)
-print('불량의심 개수:', unnormal_product_count)
+print('불량의심(head) 개수:', unnormal_product_head_count)
+print('불량의심(body) 개수:', unnormal_product_body_count)
+print('불량의심(foot) 개수:', unnormal_product_foot_count)
 
 
 csv_filename = "data/smartfactory.csv"
