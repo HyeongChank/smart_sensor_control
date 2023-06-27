@@ -34,6 +34,30 @@ class MachineA1:
                 unnormal_head += 1
             print(f'Machine A1 produced a {product} at time {self.env.now}')
 
+class MachineA1_1:
+    def __init__(self, env, conveyor_b, conveyor_c):
+        self.env = env
+        self.conveyor_b = conveyor_b
+        self.conveyor_c = conveyor_c
+
+    def run(self):
+        global normal_head
+        global unnormal_head
+        while True:
+            
+            yield self.env.timeout(2)  # takes 2 time units
+            product_weight = ['normal'] * 95 + ['unnormal'] * 5
+            product = random.choice(product_weight)
+            if product == 'normal':
+                yield self.conveyor_b.put('head' + product)
+                # yield self.env.timeout(1)
+                normal_head += 1
+            else:
+                yield self.conveyor_c.put('head' + product)
+                # yield self.env.timeout(1)
+                unnormal_head += 1
+            print(f'Machine A1 produced a {product} at time {self.env.now}')
+
 class MachineA2:
     def __init__(self, env, conveyor_b, conveyor_c):
         self.env = env
