@@ -12,31 +12,22 @@ unnormal_body = 0
 unnormal_foot = 0
 
 class MachineA1:
-    def __init__(self, env, conveyor_b, conveyor_c):
+    def __init__(self, env, conveyor_a1_1):
         self.env = env
-        self.conveyor_b = conveyor_b
-        self.conveyor_c = conveyor_c
+        self.conveyor_a1_1 = conveyor_a1_1
 
     def run(self):
-        global normal_head
-        global unnormal_head
         while True:
             yield self.env.timeout(2)  # takes 2 time units
             product_weight = ['normal'] * 95 + ['unnormal'] * 5
             product = random.choice(product_weight)
-            if product == 'normal':
-                yield self.conveyor_b.put('head' + product)
-                # yield self.env.timeout(1)
-                normal_head += 1
-            else:
-                yield self.conveyor_c.put('head' + product)
-                # yield self.env.timeout(1)
-                unnormal_head += 1
+            yield self.conveyor_a1_1.put(product)
             print(f'Machine A1 produced a {product} at time {self.env.now}')
 
 class MachineA1_1:
-    def __init__(self, env, conveyor_b, conveyor_c):
+    def __init__(self, env, conveyor_a1_1, conveyor_b, conveyor_c):
         self.env = env
+        self.conveyor_a1_1 = conveyor_a1_1
         self.conveyor_b = conveyor_b
         self.conveyor_c = conveyor_c
 
@@ -44,23 +35,36 @@ class MachineA1_1:
         global normal_head
         global unnormal_head
         while True:
-            
-            yield self.env.timeout(2)  # takes 2 time units
-            product_weight = ['normal'] * 95 + ['unnormal'] * 5
-            product = random.choice(product_weight)
-            if product == 'normal':
-                yield self.conveyor_b.put('head' + product)
+            yield self.env.timeout(2)
+            product_a1 = yield self.conveyor_a1_1.get()
+            print('a1_1 pass')
+            if product_a1 == 'normal':
+                yield self.conveyor_b.put('head' + product_a1)
                 # yield self.env.timeout(1)
                 normal_head += 1
             else:
-                yield self.conveyor_c.put('head' + product)
+                yield self.conveyor_c.put('head' + product_a1)
                 # yield self.env.timeout(1)
                 unnormal_head += 1
-            print(f'Machine A1 produced a {product} at time {self.env.now}')
+            print(f'Machine A1 produced a {product_a1} at time {self.env.now}')
 
 class MachineA2:
-    def __init__(self, env, conveyor_b, conveyor_c):
+    def __init__(self, env, conveyor_a2_1):
         self.env = env
+        self.conveyor_a2_1 = conveyor_a2_1
+
+    def run(self):
+        while True:
+            yield self.env.timeout(2)  # takes 3 time units
+            product_weight = ['normal'] * 95 + ['unnormal'] * 5
+            product = random.choice(product_weight)
+            yield self.conveyor_a2_1.put(product)
+            print(f'Machine A2 produced a {product} at time {self.env.now}')
+
+class MachineA2_1:
+    def __init__(self, env, conveyor_a2_1, conveyor_b, conveyor_c):
+        self.env = env
+        self.conveyor_a2_1 = conveyor_a2_1
         self.conveyor_b = conveyor_b
         self.conveyor_c = conveyor_c
 
@@ -68,18 +72,18 @@ class MachineA2:
         global normal_body
         global unnormal_body
         while True:
-            yield self.env.timeout(2)  # takes 3 time units
-            product_weight = ['normal'] * 95 + ['unnormal'] * 5
-            product = random.choice(product_weight)
-            if product == 'normal':
-                yield self.conveyor_b.put('body' + product)
-                #yield self.env.timeout(1)
+            yield self.env.timeout(2)
+            product_a2 = yield self.conveyor_a2_1.get()
+            print('a2_1 pass')
+            if product_a2 == 'normal':
+                yield self.conveyor_b.put('body' + product_a2)
+                # yield self.env.timeout(1)
                 normal_body += 1
             else:
-                yield self.conveyor_c.put('body' + product)
-                #yield self.env.timeout(1)
+                yield self.conveyor_c.put('body' + product_a2)
+                # yield self.env.timeout(1)
                 unnormal_body += 1
-            print(f'Machine A2 produced a {product} at time {self.env.now}')
+            print(f'Machine A1 produced a {product_a2} at time {self.env.now}')
 
 class MachineA3:
     def __init__(self, env, conveyor_b, conveyor_c):
@@ -105,17 +109,17 @@ class MachineA3:
             print(f'Machine A3 produced a {product} at time {self.env.now}')
 
 class MachineB:
-    def __init__(self, env, conveyor_a1, conveyor_a2, conveyor_a3):
+    def __init__(self, env, conveyor_a1_1, conveyor_a2_1, conveyor_a3):
         self.env = env
-        self.conveyor_a1 = conveyor_a1
-        self.conveyor_a2 = conveyor_a2
+        self.conveyor_a1_1 = conveyor_a1_1
+        self.conveyor_a2_1 = conveyor_a2_1
         self.conveyor_a3 = conveyor_a3
 
     def run(self):
         global product_count
         while True:
-            product_a1 = yield self.conveyor_a1.get()
-            product_a2 = yield self.conveyor_a2.get()
+            product_a1 = yield self.conveyor_a1_1.get()
+            product_a2 = yield self.conveyor_a2_1.get()
             product_a3 = yield self.conveyor_a3.get()
 
             products = {product_a1, product_a2, product_a3}
@@ -127,16 +131,16 @@ class MachineB:
                 pass
 
 class MachineC:
-    def __init__(self, env, conveyor_a1, conveyor_a2, conveyor_a3):
+    def __init__(self, env, conveyor_a3_1, conveyor_a2, conveyor_a3):
         self.env = env
-        self.conveyor_a1 = conveyor_a1
+        self.conveyor_a3_1 = conveyor_a3_1
         self.conveyor_a2 = conveyor_a2
         self.conveyor_a3 = conveyor_a3
 
     def run(self):
         global unnormal_total
         while True:
-            product_a1 = yield self.conveyor_a1.get()
+            product_a1 = yield self.conveyor_a3_1.get()
             product_a2 = yield self.conveyor_a2.get()
             product_a3 = yield self.conveyor_a3.get()
 
@@ -145,17 +149,32 @@ class MachineC:
             print(f'Machine C processed at time {self.env.now}')
 
 env = simpy.Environment()
+conveyor_a1_1 = simpy.Store(env, capacity=100)
+conveyor_a2_1 = simpy.Store(env, capacity=100)
+conveyor_a3_1 = simpy.Store(env, capacity=100)
+conveyor_a1_2 = simpy.Store(env, capacity=100)
+conveyor_a2_2 = simpy.Store(env, capacity=100)
+conveyor_a3_2 = simpy.Store(env, capacity=100)
+
 conveyor_b = simpy.Store(env, capacity=100)
 conveyor_c = simpy.Store(env, capacity=100)
-machine_A1 = MachineA1(env, conveyor_b, conveyor_c)
-machine_A2 = MachineA2(env, conveyor_b, conveyor_c)
-machine_A3 = MachineA3(env, conveyor_b, conveyor_c)
+
+machine_A1 = MachineA1(env, conveyor_a1_1)
+machine_A1_1 = MachineA1_1(env, conveyor_a1_1, conveyor_b, conveyor_c)
+machine_A2 = MachineA2(env, conveyor_a2_1)
+machine_A2_1 = MachineA2_1(env, conveyor_a2_1, conveyor_b, conveyor_c)
+#machine_A3 = MachineA3(env, conveyor_a3_1)
+#machine_A3_1 = MachineA3_1(env, conveyor_a3_1, conveyor_b, conveyor_c)
+
 machine_B = MachineB(env, conveyor_b, conveyor_b, conveyor_b)
 machine_C = MachineC(env, conveyor_c, conveyor_c, conveyor_c)
 
 env.process(machine_A1.run())
 env.process(machine_A2.run())
-env.process(machine_A3.run())
+#env.process(machine_A3.run())
+env.process(machine_A1_1.run())
+env.process(machine_A2_1.run())
+#env.process(machine_A3_1.run())
 env.process(machine_B.run())
 env.process(machine_C.run())
 env.run(until=200)
