@@ -4,7 +4,7 @@ import time
 import simpy
 import threading
 import random
-import streamlit as st
+
 # # 센서가 연결된 GPIO 핀 번호
 # channel = 17
 # led_channel = 2
@@ -254,14 +254,15 @@ def operate_main():
 
     print('product_count', product_count)
     print('normal_head', normal_head)
-    st.title('simulation')
-    st.dataframe(production_data)
+
 
     ts = threading.Thread(target=stop_button, args=(env, ))
     #####           reprogress 스레드 도 넣어야 함       머신 break를 다시 되돌릴 수 있나?? 다시 run 해야하나??
     ts.start()
-    env.run(until=200)
     
+    
+    env.run(until=200)
+    return production_data
     
     
 def stop_button(env):

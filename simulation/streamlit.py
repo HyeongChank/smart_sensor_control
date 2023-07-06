@@ -290,6 +290,8 @@ def app():
     if st.button('Stop simulation'):
         stop_button()
 
+    if st.button('Refresh Data'):
+        st.experimental_rerun()
     # Display production data
     st.dataframe(production_data)
 
