@@ -15,7 +15,7 @@ simul 설계
 센서 2 :      컨베이어(무게 다름) 시 해당 제품 구분
 
 
-
+cpu 확인 : ctrl + shift + esc 
 
 
 
