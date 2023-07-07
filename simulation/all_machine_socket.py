@@ -24,6 +24,9 @@ thread_stop_event = Event()
 
 product_count = 0
 unnormal_total = 0
+produce_head =0
+produce_body =0
+produce_foot =0
 normal_head = 0
 normal_body = 0
 normal_foot = 0
@@ -81,11 +84,13 @@ class WebSocketThread(Thread):
                 stop_point = self.env.now
                 print(stop_point)
                 print(f'stop_producing at {stop_point}')
+                #self.emit_data('stop_point', {'stop_point': stop_point})
             elif inp_stop.lower() == 're':
                 self.stop_simulation= False
                 restart_point = self.env.now
                 print(restart_point)
                 print(f'restart_time at {restart_point}')
+                #self.emit_data('restart_point', {'restart_point': restart_point})
                     
 
 class MachineA1:
@@ -95,19 +100,28 @@ class MachineA1:
         self.emit_data = emit_data
         self.web_socket_thread = web_socket_thread
         
-    def run(self):
+        self.time_thread = threading.Thread(target=self.time_tracker)
+        self.time_thread.start()
+    def time_tracker(self):
         while True:
-            
-            yield self.env.timeout(2)
-            product_weight = ['normal'] * 5 + ['unnormal'] * 5
-            product = random.choice(product_weight)
             self.emit_data('process_time', {'Time': self.env.now})
-
+            time.sleep(1)
+        
+    def run(self):
+        global produce_head
+        while True:
+            yield self.env.timeout(5)
+            product_weight = ['normal'] * 95 + ['unnormal'] * 5
+            product = random.choice(product_weight)
+            produce_head +=1
+            self.emit_data('machineA1_count', {'count': produce_head})
+            
+            self.emit_data('problem', {'problem': 'working'})
             if self.web_socket_thread.stop_simulation:
                 while self.web_socket_thread.stop_simulation:
                     yield self.env.timeout(1)
                     print('machineA stop')
-                    self.emit_data('problem', {'problem': 'Problem Occurency'})
+                    self.emit_data('problem', {'problem': 'problem occurency'})
                 print('machineA_restart')
 
             yield self.conveyor_a1_1.put(product)
@@ -125,15 +139,12 @@ class MachineA1_1:
         global normal_head
         global unnormal_head
         while True:
-            yield self.env.timeout(3)
+            yield self.env.timeout(1)
             product_a1 = yield self.conveyor_a1_1.get()
             
             yield self.env.timeout(3)
             if product_a1 == 'normal':
                 normal_head += 1
-                # self.emit_data('machineA1_status', {'status': product_a1})
-                # self.emit_data('machineA1_part', {'part': 'head'})
-                self.emit_data('machineA1_count', {'count': normal_head})
                 
                 print(normal_head)
                 yield self.conveyor_a1tob.put('head' + product_a1)
@@ -153,10 +164,13 @@ class MachineA2:
         self.web_socket_thread = web_socket_thread
 
     def run(self):
+        global produce_body
         while True:
-            yield self.env.timeout(3)
+            yield self.env.timeout(4)
             product_weight = ['normal'] * 95 + ['unnormal'] * 5
             product = random.choice(product_weight)
+            produce_body +=1
+            self.emit_data('machineA2_count', {'count': produce_body})
             if self.web_socket_thread.stop_simulation:
                 while self.web_socket_thread.stop_simulation:
                     yield self.env.timeout(1)
@@ -178,14 +192,14 @@ class MachineA2_1:
         global normal_body
         global unnormal_body
         while True:
-            yield self.env.timeout(4)
+            yield self.env.timeout(1)
             product_a2 = yield self.conveyor_a2_1.get()
             yield self.env.timeout(1)
             if product_a2 == 'normal':
                 normal_body += 1
                 # self.emit_data('machineA2_status', {'status': product_a2})
                 # self.emit_data('machineA2_part', {'part': 'body'})
-                self.emit_data('machineA2_count', {'count': normal_body})
+                # self.emit_data('machineA2_count', {'count': normal_body})
                 yield self.conveyor_a2tob.put('body' + product_a2)
                 yield self.env.timeout(2)
                 
@@ -203,10 +217,13 @@ class MachineA3:
         self.web_socket_thread = web_socket_thread
 
     def run(self):
+        global produce_foot
         while True:
             yield self.env.timeout(3)
             product_weight = ['normal'] * 95 + ['unnormal'] * 5
             product = random.choice(product_weight)
+            produce_foot +=1
+            self.emit_data('machineA3_count', {'count': produce_foot})
             if self.web_socket_thread.stop_simulation:
                 while self.web_socket_thread.stop_simulation:
                     yield self.env.timeout(1)
@@ -235,7 +252,7 @@ class MachineA3_1:
                 normal_foot += 1
                 # self.emit_data('machineA3_status', {'status': product_a3})
                 # self.emit_data('machineA3_part', {'part': 'foot'})
-                self.emit_data('machineA3_count', {'count': normal_foot})
+                # self.emit_data('machineA3_count', {'count': normal_foot})
                 yield self.conveyor_a3tob.put('foot' + product_a3)
                 print('foot a3_1')
                 yield self.env.timeout(2)
@@ -267,7 +284,7 @@ class MachineB:
             products = {product_a1, product_a2, product_a3}
             print(products)
             if 'headnormal' in products and 'bodynormal' in products and 'footnormal' in products:
-                yield self.env.timeout(10)
+                yield self.env.timeout(3)
                 product_count += 1
                 self.emit_data('completed_product', {'completed_product': product_count})
 
