@@ -74,36 +74,49 @@ class WebSocketThread(Thread):
         socketio.emit(event, data, room=self.sid, namespace='/test')
 
     def run(self):
-        self.env.run(until=100)
+        self.env.run(until=50)
         
 
     def stop_button(self):
-       
+        
         while True:
-            self.db_conn = sqlite3.connect('smartfactory.db')
-            self.db_cursor = self.db_conn.cursor()
-            self.db_cursor.execute("create table if not exists sf (subject varchar, content_time REAL)")
-            self.db_conn.commit()
             inp_stop = input()
-            
+        
             if inp_stop.lower() =='s':
                 self.stop_simulation = True
                 stop_point = self.env.now
                 print(stop_point)
                 print(f'stop_producing at {stop_point}')
-                self.emit_data('stop_point', {'stop_point': stop_point})
-                self.db_cursor.execute("INSERT INTO sf VALUES (?, ?)", ('stop', stop_point))
-                self.db_conn.commit()
-                self.db_conn.close()
+                db_conn = sqlite3.connect('smartfactory.db')
+                db_cursor = db_conn.cursor()
+                db_cursor.execute("create table if not exists sf (subject text, content_time REAL)")        
+                db_cursor.execute("INSERT INTO sf VALUES (?, ?)", ('newstop', stop_point))
+                db_conn.commit()
+                db_conn.close()
                 
+                
+
             elif inp_stop.lower() == 're':
                 self.stop_simulation= False
                 restart_point = self.env.now
                 print(restart_point)
                 print(f'restart_time at {restart_point}')
-                self.db_cursor.execute("INSERT INTO sf VALUES (?, ?)", ('restart', restart_point))
-                self.db_conn.commit()
-                self.db_conn.close()
+                db_conn = sqlite3.connect('smartfactory.db')
+                db_cursor = db_conn.cursor()
+                db_cursor.execute("INSERT INTO sf VALUES (?, ?)", ('newrestart', restart_point))
+                db_conn.commit()
+                db_conn.close()
+                
+            elif inp_stop.lower() =='log':
+                print("exit_close")
+                db_conn = sqlite3.connect('smartfactory.db')
+                db_cursor = db_conn.cursor()
+                db_cursor.execute('select * from sf')
+                for row in db_cursor:
+                    print(row)
+                db_conn.close()
+                
+                
                 
 class MachineA1:
     def __init__(self, env, conveyor_a1_1, web_socket_thread, emit_data):

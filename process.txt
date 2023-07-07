@@ -49,3 +49,13 @@ cpu 확인 : ctrl + shift + esc
 - GPIO(Gnenral Prupose Input Output: 범용입출력) 라이브러리 사용
 - 점퍼 케이블(라즈베리파이, 브레드보드 연결), LED, 저항 연결
 
+
+
+
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread. 이라는 에러 메시지는 SQLite3의 스레드 사용에 관한 제약 때문에 발생하는 것입니다.
+
+SQLite 데이터베이스는 기본적으로 스레드에 안전하지 않습니다. 즉, 하나의 스레드에서 생성된 SQLite 객체(예를 들어, 데이터베이스 커넥션 또는 커서)는 그 스레드에서만 사용될 수 있습니다. 다른 스레드에서 해당 객체를 사용하려고 하면 위와 같은 에러가 발생하게 됩니다.
+
+주어진 코드에서는 SQLite 데이터베이스 커넥션과 커서를 WebSocketThread의 __init__ 메소드에서 생성하고, 이후에는 다른 스레드에서 이 객체들을 사용하려고 하고 있습니다. 이로 인해 위와 같은 에러가 발생하는 것입니다.
+
+이를 해결하기 위해, 각 스레드마다 별도의 SQLite 데이터베이스 커넥션과 커서를 생성하거나, SQLite 데이터베이스 작업을 하나의 스레드에서만 수행하도록 코드를 수정해야 합니다.

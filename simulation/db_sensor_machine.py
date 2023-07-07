@@ -68,11 +68,7 @@ class WebSocketThread(Thread):
         self.channel = 17
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.channel, GPIO.IN)
-        self.db_conn = sqlite3.connect('smartfactory.db')
-        self.db_cursor = self.db_conn.cursor()
-        self.db_cursor.execute('''CREATE TABLE IF NOT EXISTS simulation
-                     (event TEXT, time REAL)''')
-        
+                
         ts = threading.Thread(target=self.stop_button)
         ts.start()
         tr = threading.Thread(target=self.restart_button)
@@ -91,9 +87,13 @@ class WebSocketThread(Thread):
             stop_point = self.env.now
             print(f'stop_producing at {stop_point}')
             self.emit_data('stop_point', {'stop_point': stop_point})
-            self.db_cursor.execute("INSERT INTO simulation VALUES (?, ?)", ('stop', stop_point))
-            self.db_conn.commit()
-            
+            db_conn = sqlite3.connect('smartfactory.db')
+            db_cursor = db_conn.cursor()
+            db_cursor.execute("create table if not exists sf (subject text, content_time REAL)")        
+            db_cursor.execute("INSERT INTO sf VALUES (?, ?)", ('stop', stop_point))
+            db_conn.commit()
+            db_conn.close()
+        
             
         def poll_GPIO(channel):
             while True:
@@ -114,8 +114,7 @@ class WebSocketThread(Thread):
                 self.db_cursor.execute("INSERT INTO simulation VALUES (?, ?)", ('restart', restart_point))
                 self.db_conn.commit()
                 
-    def __del__(self):
-         self.db_conn.close()              
+      
                 
 
 class MachineA1:
