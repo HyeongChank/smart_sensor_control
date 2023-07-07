@@ -1,5 +1,5 @@
-# import RPi.GPIO as GPIO
-
+import sqlite3
+import RPi.GPIO as GPIO
 import time
 import simpy
 import threading
@@ -65,6 +65,14 @@ class WebSocketThread(Thread):
         self.machine_C = MachineC(self.env, self.conveyor_a1toc, self.conveyor_a2toc, self.conveyor_a3toc, self.emit_data)
         self.env.process(self.machine_B.run())
         self.env.process(self.machine_C.run())
+        self.channel = 17
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.channel, GPIO.IN)
+        self.db_conn = sqlite3.connect('smartfactory.db')
+        self.db_cursor = self.db_conn.cursor()
+        self.db_cursor.execute('''CREATE TABLE IF NOT EXISTS simulation
+                     (event TEXT, time REAL)''')
+        
         ts = threading.Thread(target=self.stop_button)
         ts.start()
         tr = threading.Thread(target=self.restart_button)
@@ -78,30 +86,37 @@ class WebSocketThread(Thread):
 
     def stop_button(self):
        
-        while True:
-            inp_stop = input()
+        def perform_action():
+            self.stop_simulation = True
+            stop_point = self.env.now
+            print(f'stop_producing at {stop_point}')
+            self.emit_data('stop_point', {'stop_point': stop_point})
+            self.db_cursor.execute("INSERT INTO simulation VALUES (?, ?)", ('stop', stop_point))
+            self.db_conn.commit()
             
-            if inp_stop.lower() =='s':
-                self.stop_simulation = True
-                stop_point = self.env.now
-                print(stop_point)
-                print(f'stop_producing at {stop_point}')
-                #self.emit_data('stop_point', {'stop_point': stop_point})
-            # elif inp_stop.lower() == 're':
-            #     self.stop_simulation= False
-            #     restart_point = self.env.now
-            #     print(restart_point)
-            #     print(f'restart_time at {restart_point}')
-            #     #self.emit_data('restart_point', {'restart_point': restart_point})
+            
+        def poll_GPIO(channel):
+            while True:
+                if GPIO.input(channel):
+                    print("Vibration detected!")
+                    perform_action()
+                time.sleep(1)
+
+        poll_GPIO(self.channel)
+
     def restart_button(self):
         while True:
-            inp_stop = input()
-            if inp_stop.lower() == 're':
-                self.stop_simulation= False
+            inp_restart = input()
+            if inp_restart.lower() == 're':
+                self.stop_simulation = False
                 restart_point = self.env.now
-                print(restart_point)
                 print(f'restart_time at {restart_point}')
-            
+                self.db_cursor.execute("INSERT INTO simulation VALUES (?, ?)", ('restart', restart_point))
+                self.db_conn.commit()
+                
+    def __del__(self):
+         self.db_conn.close()              
+                
 
 class MachineA1:
     def __init__(self, env, conveyor_a1_1, web_socket_thread, emit_data):
@@ -207,9 +222,7 @@ class MachineA2_1:
             yield self.env.timeout(1)
             if product_a2 == 'normal':
                 normal_body += 1
-                # self.emit_data('machineA2_status', {'status': product_a2})
-                # self.emit_data('machineA2_part', {'part': 'body'})
-                # self.emit_data('machineA2_count', {'count': normal_body})
+                
                 yield self.conveyor_a2tob.put('body' + product_a2)
                 yield self.env.timeout(2)
                 
@@ -260,9 +273,7 @@ class MachineA3_1:
             yield self.env.timeout(1)
             if product_a3 == 'normal':
                 normal_foot += 1
-                # self.emit_data('machineA3_status', {'status': product_a3})
-                # self.emit_data('machineA3_part', {'part': 'foot'})
-                # self.emit_data('machineA3_count', {'count': normal_foot})
+                
                 yield self.conveyor_a3tob.put('foot' + product_a3)
                 print('foot a3_1')
                 yield self.env.timeout(2)
