@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\김형찬\1project_ai_tensorflow_collect\raspberryPI\Raspberry_pi\venv"
+VIRTUAL_ENV="C:\Users\jsk38\raspberrypi\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

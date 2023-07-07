@@ -163,7 +163,7 @@ class Product:
         
 
 
-weight_list = ['unnormal'] * 1 + ['normal'] * 9
+weight_list = ['unnormal'] * 4 + ['normal'] * 4
 print(weight_list)
 env = simpy.Environment()
 temporature = 'normal'
