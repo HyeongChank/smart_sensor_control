@@ -1,30 +1,38 @@
-# 라즈베리파이 센서를 통한 데이터 수집 연습
-### 최종적으로 스마트 센서 네트워크 설계 및 장비를 활용한 생산 공정 자동 제어, 모니터링 시스템 구축하기
 
 
-## LED 켜기(06.05)
+
+
+# 스마트 센서 네트워크 설계 및 장비를 활용한 생산 공정 자동 제어, 모니터링 시스템 구축하기
+
+## 모바일을 통한 모니터링 및 제어(07.26)
+- Test로 안드로이드 - 파이썬 소켓을 통한 연동(O)
+- 프로젝트에 적용해야 함(Todo)
+
+
+## 라즈베리파이 센서를 통한 데이터 수집 연습
+### LED 켜기(06.05)
 - GPIO(Gnenral Prupose Input Output: 범용입출력) 라이브러리 사용
 - 점퍼 케이블(라즈베리파이, 브레드보드 연결), LED, 저항 연결
     - LED 왼쪽-GPIO / LED 오른쪽-저항-GND
-## 스위치 입력 시 LED 점등하기(06.09)
+### 스위치 입력 시 LED 점등하기(06.09)
 - pull_up_down
 
-## 온습도 측정(06.19)
+### 온습도 측정(06.19)
 - Adafruit_DHT 모듈 사용
 - VCC-5V / GND-GND / DATA-GPIO 연결
 
-## 카메라 모듈로 사진, 동영상 촬영(06.20)
+### 카메라 모듈로 사진, 동영상 촬영(06.20)
 - PiCamera 모듈 사용
 - .capture / .start_recording
 - 라즈베리파이 카메라 설정
     - sudo raspi-config -> interface options -> legacy camera -> yes -> finish
     - 재부팅 -> vcgencmd get_camera(카메라 연결 확인) -> raspistill -o test.jpg(test 촬영)
 
-## 진동감지 시 LED 켜기(06.21)
+### 진동감지 시 LED 켜기(06.21)
 - GPIO.IN(스위치와 동일)
 - VCC-5V / GND-GND / DO-GPIO
 
-## 충돌감지(06.22)
+### 충돌감지(06.22)
 - GPIO.IN(진동감지 센서와 동일)
 - VCC-5V / GNd-GND / OUT-GPIO
 - pull-down 저항 활성화 : 저전압(OV), 입력 없을 때 LOW 상태 유지
