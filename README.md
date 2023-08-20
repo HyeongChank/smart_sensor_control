@@ -34,9 +34,18 @@
 
 ### 충돌감지(06.22)
 - GPIO.IN(진동감지 센서와 동일)
-- VCC-5V / GNd-GND / OUT-GPIO
+- VCC-5V / GND-GND / OUT-GPIO
 - pull-down 저항 활성화 : 저전압(OV), 입력 없을 때 LOW 상태 유지
 - pull-up 저항 활성화 : VCC, 입력 없을 때 HIGH 상태 유지
+
+### 모터작동(08.20)
+- GPIO.OUT (서보 모터 제어 핀 설정)
+- VCC-5V / GND-GND / SIGNAL-GPIO
+- PWM 설정
+    - PWM 주파수 설정: 50Hz (대부분의 서보 모터는 50Hz PWM 신호로 제어)
+    - GPIO 18 핀의 PWM 인스턴스 생성 및 시작
+    - 각도 설정 함수 (SetAngle)
+
 
 > Motor 작동
 <img width="200" height="100" src="https://github.com/HyeongChank/smart_sensor_control/assets/122770625/dfd834cc-00de-4e6c-89b7-aec8ed977aba"/>
