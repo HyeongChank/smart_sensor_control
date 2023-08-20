@@ -38,6 +38,8 @@
 - pull-down 저항 활성화 : 저전압(OV), 입력 없을 때 LOW 상태 유지
 - pull-up 저항 활성화 : VCC, 입력 없을 때 HIGH 상태 유지
 
+> Motor 작동
+<img width="200" height="100" src="https://github.com/HyeongChank/smart_sensor_control/assets/122770625/dfd834cc-00de-4e6c-89b7-aec8ed977aba"/>
 
 > 충돌감지
 <img width="200" height="200" src="https://github.com/HyeongChank/Raspberry_pi/assets/122770625/c9e7f7f3-7599-46c6-80fd-6ed4fffc13b8"/>
