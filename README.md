@@ -46,7 +46,11 @@
     - GPIO 18 핀의 PWM 인스턴스 생성 및 시작
     - 각도 설정 함수 (SetAngle)
 
+### 실시간 영상 웹으로 보기(08.22)
+- mjpg-streamer 사용
+- input_raspicam.so 경로 설정 주의
 
+  
 > Motor 작동
 <img width="200" height="100" src="https://github.com/HyeongChank/smart_sensor_control/assets/122770625/dfd834cc-00de-4e6c-89b7-aec8ed977aba"/>
 
