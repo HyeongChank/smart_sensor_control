@@ -5,8 +5,12 @@
 # 스마트 센서 네트워크 설계 및 장비를 활용한 생산 공정 자동 제어, 모니터링 시스템 구축하기
 
 ```
-### 구축환경
-### Linux, raspberry-pi, python(VS Code), android
+
+
+구축환경
+Linux, raspberry-pi, python(VS Code), android(android studio)
+
+
 ```
 
 ## 라즈베리파이 센서를 통한 데이터 수집 및 기기제어
