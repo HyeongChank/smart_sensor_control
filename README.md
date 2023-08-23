@@ -12,6 +12,8 @@ Linux, raspberry-pi, python(VS Code), android(android studio)
 - 배경 제거 방식을 사용하여 움직임 감지(BackgroundSubtractorMOG2)
 - OpenCV 이미지를 PIL로 변환하여 화면에 표시
 
+<br><br>
+
 8. 실시간 영상 웹으로 보기(08.22)
 - mjpg-streamer 사용
 - input_raspicam.so 경로 설정 주의
