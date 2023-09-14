@@ -11,7 +11,7 @@ Linux, raspberry-pi, python(VS Code), android(android studio)
 - MicroPython을 통한 GPS 모듈 통신(UART)
 - MicroGPS 라이브러리로 GPS 데이터(위도, 경도, 속도 등) 추출
 - OLED 디스플레이 연결
-<img width="200" height="100" src="https://github.com/HyeongChank/smart_sensor_control/assets/122770625/5b8531af-4229-464d-ae46-0d8bc6814e1f"/>
+<img width="200" height="100" src="https://github.com/HyeongChank/smart_sensor_control/assets/122770625/6a76803d-6c17-492b-8b00-50c8d4458066"/>
 
 <br><br>
 
