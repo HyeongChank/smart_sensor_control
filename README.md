@@ -7,6 +7,15 @@ Linux, raspberry-pi, python(VS Code), android(android studio)
 
 ## 라즈베리파이 센서를 통한 데이터 수집 및 기기제어
 
+10. GPS 기반 속드측정계(with 마이크로컨트롤러)(09.08)
+- MicroPython을 통한 GPS 모듈 통신(UART)
+- MicroGPS 라이브러리로 GPS 데이터(위도, 경도, 속도 등) 추출
+- OLED 디스플레이 연결
+<img width="200" height="100" src="https://github.com/HyeongChank/smart_sensor_control/assets/122770625/5b8531af-4229-464d-ae46-0d8bc6814e1f"/>
+
+<br><br>
+
+
 9. 카메라로 움직임 포착(08.23)
 - OpenCV로 영상 캡처
 - 배경 제거 방식을 사용하여 움직임 감지(BackgroundSubtractorMOG2)
