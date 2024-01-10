@@ -1,60 +1,55 @@
-import speech_recognition as sr
-from gtts import gTTS
-import os
+import requests
+import pandas as pd
+from datetime import datetime, timedelta
 
-def gtts(speech):
-    tts = gTTS(text=speech, lang='en-us', slow=False)
-    tts.save("output.mp3")  # 음성 파일을 저장
-    os.system("start output.mp3")  # 음성 파일을 재생
-    
-def text_to_speech(speech):
-    if 'hey' in speech:
-        comment = 'hello, what can i for you?'
-        gtts(comment)
-        # engine.say('hello, what can i do for you?')
-    elif 'weather' in speech:
-        comment_weather = 'pass, fix later'
-        gtts(comment_weather)
-        # engine.say('pass')
-    elif speech == 'stop':
-        comment_off = 'see you later'
-        gtts(comment_off)
-    else:
-        pass
 
-def recognize_speech():
-    recognizer = sr.Recognizer()
-    
-    with sr.Microphone() as source:
-        print("마이크로부터 몇 초간 소리를 듣고 있습니다. 말씀하세요...")
-        audio = recognizer.listen(source, timeout=3)
-        try:
-            print("음성을 텍스트로 변환 중...")
-            text = recognizer.recognize_google(audio, language='en-US')
-            # text = recognizer.recognize_google(audio, language='ko-KR')
-            print(text)
-        except sr.UnknownValueError:
-            print("음성을 인식할 수 없습니다.")
-            text = "try again"
-        except sr.RequestError as e:
-            print(f"Google Web Speech API 요청에 실패했습니다. 에러: {e}")
-            text = "try again"
-        return text
+# start_date_str = '20230101'
+# end_date_str = '20231231'
 
-def operate():
-    
-    flag = 'on'
-    while flag == 'on':
-        call = recognize_speech()
-        print("인식된 텍스트:", call)
-        if 'hey' in call:
-            text_to_speech(call)
-            command = recognize_speech()
-            text_to_speech(command)
-        elif 'stop' in call:
-            command = 'stop'
-            text_to_speech(command)
-            flag = 'off'
+# # 문자열을 날짜로 변환
+# start_date = datetime.strptime(start_date_str, '%Y%m%d')
+# end_date = datetime.strptime(end_date_str, '%Y%m%d')
 
-if __name__ == "__main__":
-    operate()
+# # 1일씩 증가하면서 날짜 생성
+# current_date = start_date
+# date_list = []
+
+# while current_date <= end_date:
+#     date_list.append(current_date.strftime('%Y%m%d'))
+#     current_date += timedelta(days=1)
+
+
+key = 'DaYD4HqMAnLfFMtrGVb5FDSGASJak3Wi'
+searchdate = '20230105'
+data = 'AP03'
+
+url = 'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey='+key+'&searchdate='+searchdate+'&data='+data
+
+response = requests.get(url)
+result = response.json()
+rawdata = pd.DataFrame(result)
+print(rawdata.columns)
+print(rawdata.info())
+print(rawdata)
+
+# cmoney_list = []
+# for i in date_list:
+#     searchdate = str(i)
+#     url = 'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey='+key+'&searchdate='+searchdate+'&data='+data
+
+#     response = requests.get(url)
+#     result = response.json()
+#     rawdata = pd.DataFrame(result)
+
+#     if 'cur_nm' in rawdata.columns:
+
+#         changemoney = rawdata.loc[rawdata['cur_nm'] == '미국 달러', 'ttb'].values
+#         print(changemoney)
+#         cmoney_list.append(changemoney)
+#     else:
+#         print('none')
+#         cmoney_list.append('none')
+# print(len(cmoney_list))
+        
+
+
