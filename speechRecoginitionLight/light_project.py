@@ -36,8 +36,11 @@ def recognize_speech():
     
     with sr.Microphone() as source:
         print("마이크로부터 몇 초간 소리를 듣고 있습니다. 말씀하세요...")
-        audio = recognizer.listen(source, timeout=5)
-
+        try:
+            audio = recognizer.listen(source, timeout=5)
+        except sr.WaitTimeoutError:
+            print("시간초과")
+            return "try again"
     try:
         print("음성을 텍스트로 변환 중...")
         text = recognizer.recognize_google(audio, language='en-US')
