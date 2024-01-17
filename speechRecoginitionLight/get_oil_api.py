@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 from datetime import datetime, timedelta
-
+import openpyxl
 
 # start_date_str = '20230101'
 # end_date_str = '20231231'
@@ -18,27 +18,23 @@ from datetime import datetime, timedelta
 #     date_list.append(current_date.strftime('%Y%m%d'))
 #     current_date += timedelta(days=1)
 
-
-key = 'DaYD4HqMAnLfFMtrGVb5FDSGASJak3Wi'
-searchdate = '20230105'
-data = 'AP01'
-
-url = 'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey='+key+'&searchdate='+searchdate+'&data='+data
+# # print(date_list)
+# key = 'DaYD4HqMAnLfFMtrGVb5FDSGASJak3Wi'
+# # searchdate = '20240109'
+# data = 'AP01'
+# cmoney_list = []
+# for i in date_list:
+    # searchdate = str(i)
+url = 'http://www.opinet.co.kr/api/avgAllPrice.do?out=json&code=F240111008'
 
 response = requests.get(url)
 result = response.json()
-rawdata = pd.DataFrame(result)
-print(rawdata.columns)
-print(rawdata.info())
-print(rawdata)
+print(result)
+dt = [(item['TRADE_DT'], item['PRODNM'], item['PRICE']) for item in result['RESULT']['OIL']]
+print(dt)
+df = pd.DataFrame(dt, columns=['TRADE_DT', 'PRODNM', 'PRICE'])
 
-# cmoney_list = []
-# for i in date_list:
-#     searchdate = str(i)
-#     url = 'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey='+key+'&searchdate='+searchdate+'&data='+data
-
-#     response = requests.get(url)
-#     result = response.json()
+df.to_excel('data/output.xlsx', index=False)
 #     rawdata = pd.DataFrame(result)
 
 #     if 'cur_nm' in rawdata.columns:

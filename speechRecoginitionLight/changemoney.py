@@ -18,7 +18,7 @@ while current_date <= end_date:
     date_list.append(current_date.strftime('%Y%m%d'))
     current_date += timedelta(days=1)
 
-print(date_list)
+# print(date_list)
 key = 'DaYD4HqMAnLfFMtrGVb5FDSGASJak3Wi'
 # searchdate = '20240109'
 data = 'AP01'
@@ -30,15 +30,19 @@ for i in date_list:
     response = requests.get(url)
     result = response.json()
     rawdata = pd.DataFrame(result)
-
+    print(rawdata.info())
     if 'cur_nm' in rawdata.columns:
 
         changemoney = rawdata.loc[rawdata['cur_nm'] == '미국 달러', 'ttb'].values
-        print(changemoney)
+        print(i, ' ', changemoney)
         cmoney_list.append(changemoney)
     else:
-        print('none')
+        print(i, ' ', 'none')
         cmoney_list.append('none')
+        
+df = pd.DataFrame({'날짜': date_list, '환율': cmoney_list})
+excel_filename = 'data/환율데이터.xlsx'
+df.to_excel(excel_filename, index=False)
 print(len(cmoney_list))
         
 
