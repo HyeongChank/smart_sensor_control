@@ -1,0 +1,4 @@
+rasp passwd
+
+192.168.45.163
+linux - khc381988
